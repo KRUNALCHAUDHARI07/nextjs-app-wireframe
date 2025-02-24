@@ -3,9 +3,11 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Home, User, Settings, Menu, Files, Contact } from 'lucide-react';
+import { checkAuth } from '@/util/auth';
 
 export default function Sidebar() {
     const [isOpen, setIsOpen] = useState(true);
+    const isLoggedIn = checkAuth();
 
 
     const list = [
@@ -20,8 +22,8 @@ export default function Sidebar() {
         //     icon: <Files size={24} />
         // },
         {
-            text: 'About',
-            link: '/about',
+            text: 'Blog',
+            link: '/blog',
             icon: <Files size={24} />
         },
         {

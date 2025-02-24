@@ -1,0 +1,14 @@
+/* Custom styles for SimpleMDE */
+.custom-mde .editor-toolbar,
+.custom-mde .CodeMirror {
+    background-color: rgb(55 65 81 / var(--tw-bg-opacity, 1));
+    /* Light gray background */
+    color: #fff;
+    /* Dark text */
+}
+
+.custom-mde .CodeMirror {
+    min-height: 300px;
+    border-radius: 8px;
+    padding: 10px;
+}

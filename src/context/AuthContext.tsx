@@ -1,23 +1,22 @@
 "use client";
-import { createContext, useContext, useEffect, useState } from "react";
 
-type AuthContextType = {
-    token: string | null;
-    setToken: (token: string | null) => void;
-};
+import { createContext, useContext, useState, useEffect } from "react";
+import { checkAuth } from "@/util/auth";
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext<{
+    isLoggedIn: boolean;
+    setIsLoggedIn: (val: boolean) => void;
+} | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-    const [token, setToken] = useState<string | null>(null);
+    const [isLoggedIn, setIsLoggedIn] = useState<any>(() => checkAuth());
 
     useEffect(() => {
-        const storedToken = localStorage.getItem("token");
-        setToken(storedToken);
-    }, []); // Run once after component mounts
+        setIsLoggedIn(checkAuth()); // Update auth state on mount
+    }, []);
 
     return (
-        <AuthContext.Provider value={{ token, setToken }}>
+        <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
             {children}
         </AuthContext.Provider>
     );

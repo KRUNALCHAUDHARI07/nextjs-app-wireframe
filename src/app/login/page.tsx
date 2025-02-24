@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { checkAuth, login } from "@/util/auth";
+import { postData } from "@/lib/api/api";
 
 export default function AuthPage() {
     const router = useRouter();
-    const { setToken } = useAuth();
+    const { setIsLoggedIn } = useAuth();
     const [form, setForm] = useState({ email: "", password: "" });
     const [error, setError] = useState("");
     const isLoggedIn = checkAuth();
@@ -20,12 +21,20 @@ export default function AuthPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError("");
         try {
-            localStorage.setItem("token", "token");
-            setToken("token");
-            login();
-            router.push("/");
+            const response = await postData("/admin/login", { email: form.email, password: form.password });
+            console.log('response.code: ', response.code);
+            if (response.code === 201) {
+                setError("");
+                localStorage.setItem("token", "token");
+                setIsLoggedIn(true); // Update global auth state
+                login();
+                router.push("/");
+            } else {
+                setError('Login failed. Please check your credentials')
+            }
+
+
         } catch (error) {
             setError("Login failed. Please check your credentials.");
         }

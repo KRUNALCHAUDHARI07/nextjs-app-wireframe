@@ -6,7 +6,6 @@ import { useAuth } from "@/context/AuthContext";
 import { checkAuth } from "@/util/auth";
 
 const Navbar = () => {
-    const { token } = useAuth();
     const [isOpen, setIsOpen] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
     const isLoggedIn = checkAuth();
